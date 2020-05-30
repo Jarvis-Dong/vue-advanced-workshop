@@ -1,5 +1,20 @@
 <script>
-function convert (obj) {
-  // Implement this!
-}
+  const obj = { foo: 123 }
+  function convert(obj) {
+    // Implement this!
+    Object.keys(obj).forEach((key) => {
+      debugger;
+      let internalValue = obj[key]
+      Object.defineProperty(obj, key, {
+        get: () => {
+          console.log(`getting key "${key}": ${internalValue}`)
+          return internalValue
+        },
+        set: (setValue) => {
+          console.log(`setting key "${key}" to ${setValue}`)
+          internalValue = setValue
+        },
+      })
+    })
+  }
 </script>
