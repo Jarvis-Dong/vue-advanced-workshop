@@ -1,25 +1,35 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
 
 <div id="app">
-  <button @click=''>test </button>
+  <button @click='ok = !ok'>test button</button>
   <example :ok="ok"></example>
 </div>
 
 <script>
 const Foo = {
   // Implement this!
-
+  render: h => h('div','foo')
 }
 
 const Bar = {
   // Implement this!
+  render: h => h('div', 'bar')
 }
 
 Vue.component('example', {
   // Implement this!
+  props: ['ok'],
+  render (h) {
+    return this.ok ? h(Foo): h(Bar)
+  }
 })
 
 new Vue({
-  el: '#app'
+  el: '#app',
+  data () {
+    return {
+      ok: true
+    }
+  }
 })
 </script>
