@@ -3,7 +3,39 @@
 <script>
 const RulesPlugin = {
   // Implement this!
+  install (Vue) {
+    Vue.mixin({
+      created () {
+        if (this.$options.rules) {
+          Object.keys(this.$options.rules).forEach(key => {
+            const rule = this.$options.rules[key]
+            // 他需要每时每刻检测，所以需要watch
+            // if(rule.validate(this.$options.data[key])) {
+            //   console.log('succeed');
+            // } else {
+            //   console.log(rule.message);
+            // }
+            this.$watch(key, newValue => {
+              const result = rule.validate(newValue)
+              if (!result) {
+                console.log(rule.message);
+              }
+            })
+          })
+        }
+      }
+    })
+  }
 }
 
 Vue.use(RulesPlugin)
+const vm = new Vue({
+  data: { foo: 10 },
+  rules: {
+    foo: {
+      validate: value => value > 1,
+      message: 'foo must be greater than one'
+    }
+  }
+})
 </script>

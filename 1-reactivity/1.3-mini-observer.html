@@ -1,9 +1,48 @@
 <script>
-function observe (obj) {
-  // Implement this!
-}
-
-function autorun (update) {
-  // Implement this!
-}
+  window.Dep = class Dep {
+    // Implement this!
+    constructor() {
+      this.subscribers = new Set()
+    }
+    depend() {
+      if (activeUpdate) {
+        this.subscribers.add(activeUpdate)
+        //
+      }
+    }
+    notify() {
+      // run all subscriber functions
+      this.subscribers.forEach(sub => sub())
+    }
+  }
+  function observe(obj) {
+    // Implement this!
+    // paste convert()
+    Object.keys(obj).forEach((key) => {
+      let internalValue = obj[key]
+      const dep = new Dep()
+      Object.defineProperty(obj, key, {
+        get: () => {
+          // console.log(`getting key "${key}": ${internalValue}`)
+          dep.depend()
+          return internalValue
+        },
+        set: (setValue) => {
+          // console.log(`setting key "${key}" to: ${setValue}`)
+          internalValue = setValue
+          dep.notify()
+        },
+      })
+    })
+  }
+  let activeUpdate
+  function autorun(update) {
+    // Implement this!
+    function wrappedUpdate() {
+      activeUpdate = wrappedUpdate
+      update()
+      activeUpdate = null
+    }
+    wrappedUpdate()
+  }
 </script>

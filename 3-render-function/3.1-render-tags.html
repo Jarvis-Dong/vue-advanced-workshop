@@ -1,4 +1,5 @@
-<script src="../node_modules/vue/dist/vue.js"></script>
+<!-- <script src="../node_modules/vue/dist/vue.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
 
 <div id="app">
   <example :tags="['h1', 'h2', 'h3']"></example>
@@ -7,6 +8,17 @@
 <script>
 Vue.component('example', {
   // Implement this!
+  props: ['tags'],
+  functional: true,
+  render (h, {props: {tags}}){
+    const children = tags.map((tag, i)=>h(tag, i))
+    return h('div', {
+      attr: {
+        class: 'test-class',
+        id: 'hello'
+      }
+    }, children)
+  }
 })
 
 new Vue({ el: '#app' })
