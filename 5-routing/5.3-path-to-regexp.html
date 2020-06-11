@@ -24,8 +24,8 @@ const NotFound = { template: `<div>not found!</div>` }
 
 const routeTable = {
   // Implement this!
-  'foo/:id': Foo,
-  'bar': Bar
+  '/foo/:id': Foo,
+  '/bar': Bar
 }
 const compiledRoutes = []
 Object.keys(routeTable).forEach(path => {
