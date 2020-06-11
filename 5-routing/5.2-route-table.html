@@ -1,4 +1,4 @@
-<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
 
 <div id="app">
   <component :is="matchedComponent"></component>
@@ -17,14 +17,30 @@ const NotFound = { template: `<div>not found!</div>` }
 
 const routeTable = {
   // Implement this!
+  'foo': Foo,
+  'bar': Bar
 }
 
 window.addEventListener('hashchange', () => {
   // Implement this!
+  app.url = window.location.hash.slice(1)
 })
 
 const app = new Vue({
   el: '#app',
   // Implement this!
+  data: {
+    url: window.location.hash.slice(1)
+  },
+  render (h) {
+    return h('div', [
+      h(
+        routeTable[this.url] || NotFound
+      ),
+      h('a', { attrs: { href: '#foo' }}, 'Go to Foo'),
+      ' | ',
+      h('a', { attrs: { href: '#bar' }}, 'Go to Bar')
+    ])
+  }
 })
 </script>
